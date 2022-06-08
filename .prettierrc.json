@@ -1,0 +1,16 @@
+{
+	"tabWidth": 2,
+	"useTabs": true,
+	"semi": false,
+	"singleQuote": true,
+	"quoteProps": "consistent",
+	"trailingComma": "all",
+	"htmlWhitespaceSensitivity": "ignore",
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true,
+	"importOrderCaseInsensitive": false,
+	"importOrderParserPlugins": [
+		"typescript",
+		"[\"decorators\", { \"decoratorsBeforeExport\": true }]"
+	]
+}

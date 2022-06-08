@@ -1,20 +1,24 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "esModuleInterop": true,
-    "strictNullChecks": true,
-    "moduleResolution": "node",
-    "declarationDir": "dist/dts",
-    "outDir": "dist/esm",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "strictPropertyInitialization": false,
-    "importsNotUsedAsValues": "error",
-    "target": "es2015",
+    "target": "ESNext",
     "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "moduleResolution": "Node",
+    "strict": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
     "importHelpers": true,
-    "types": ["node"],
-    "lib": ["DOM", "ES2015", "ES2016.Array.Include"]
+    "declaration": true,
+    "declarationMap": true,
+    "noEmitOnError": true
   },
   "include": ["src"]
 }
