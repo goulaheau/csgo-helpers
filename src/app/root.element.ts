@@ -1,5 +1,8 @@
 import { AppRouterConfiguration } from './app-router-configuration.js'
 import { FASTElement, css, customElement, html } from '@microsoft/fast-element'
+import { FASTRouter } from "@microsoft/fast-router";
+
+FASTRouter;
 
 @customElement({
 	name: 'app-root',

@@ -1,3 +1,4 @@
+import deDust2Url from '/assets/maps/de_dust2.png'
 import {
 	FASTElement,
 	attr,
@@ -12,14 +13,16 @@ import {
 @customElement({
 	name: 'app-map',
 	styles: css`
+		*:focus {
+			outline: none;
+		}
+		
 		.map {
-			width: auto;
-			max-height: 100vh;
-			max-width: 100vw;
-			aspect-ratio: 1;
+			width: 100vh;
+			height: 100vh;
 			position: relative;
 			z-index: 0;
-			background: url('/assets/maps/de_dust2.png') 0% 0% / contain no-repeat;
+			background: url(${deDust2Url}) 0 0% / contain no-repeat;
 			margin: auto;
 		}
 
