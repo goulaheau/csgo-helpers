@@ -1,4 +1,6 @@
+import { MapName } from '../types/map-name'
 import deDust2Url from '/assets/maps/de_dust2.png'
+import deNukeUrl from '/assets/maps/de_nuke.png'
 import {
 	FASTElement,
 	attr,
@@ -16,13 +18,13 @@ import {
 		*:focus {
 			outline: none;
 		}
-		
+
 		.map {
 			width: 100vh;
 			height: 100vh;
 			position: relative;
 			z-index: 0;
-			background: url(${deDust2Url}) 0 0% / contain no-repeat;
+			background: 0 0% / contain no-repeat;
 			margin: auto;
 		}
 
@@ -92,7 +94,7 @@ import {
 		}
 	`,
 	template: html<MapElement>`
-		<div class="map">
+		<div class="map" style="background-image: url(${(x) => x.mapUrl})">
 			${repeat(
 				(x) => x.ends,
 				html<{ id: number; x: number; y: number }, MapElement>`
@@ -158,10 +160,12 @@ import {
 	`,
 })
 export class MapElement extends FASTElement {
-	@attr() mapName: 'de_dust2' = 'de_dust2'
+	@attr() mapName!: MapName
 
 	@observable endIdSelected: number | null = null
 	@observable videoUrl: string | null = null
+
+	@observable mapUrl!: string
 
 	videoElement!: HTMLVideoElement
 
@@ -219,6 +223,23 @@ export class MapElement extends FASTElement {
 				videoUrl: 'https://giant.gfycat.com/RashDizzyHarborporpoise.mp4',
 			},
 		],
+	}
+
+	mapNameChanged(): void {
+		this.mapUrl = this.getMapUrl(this.mapName)
+	}
+
+	private getMapUrl(mapName: MapName): string {
+		switch (mapName) {
+			case 'de_dust2':
+				return deDust2Url
+
+			case 'de_nuke':
+				return deNukeUrl
+
+			default:
+				throw new Error('Map non gérée')
+		}
 	}
 
 	closeVideoWhenClickedOutside = (event: any) => {
