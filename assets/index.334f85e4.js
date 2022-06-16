@@ -4,10 +4,8 @@ const Yt=function(){const t=document.createElement("link").relList;if(t&&t.suppo
 		<slot></slot>
 	`);var Ci="/csgo-helpers/assets/de_dust2.574d35c0.png",wi=Object.defineProperty,Si=Object.getOwnPropertyDescriptor,M=(s,t,e,i)=>{for(var n=i>1?void 0:i?Si(t,e):t,r=s.length-1,o;r>=0;r--)(o=s[r])&&(n=(i?o(t,e,n):o(n))||n);return i&&n&&wi(t,e,n),n};let E=class extends _{constructor(){super(...arguments),this.mapName="de_dust2",this.endIdSelected=null,this.videoUrl=null,this.ends=[{id:1,x:483,y:402},{id:2,x:250,y:227}],this.starts={1:[{id:1,endId:1,x:447,y:885,videoUrl:"https://giant.gfycat.com/CapitalClearAlligator.mp4"},{id:2,endId:1,x:544,y:648,videoUrl:"https://giant.gfycat.com/WellwornKindIaerismetalmark.mp4"},{id:3,endId:1,x:285,y:405,videoUrl:"https://giant.gfycat.com/IdioticAdventurousArabianoryx.mp4"}],2:[{id:4,endId:2,x:133,y:454,videoUrl:"https://giant.gfycat.com/RashDizzyHarborporpoise.mp4"}]},this.closeVideoWhenClickedOutside=s=>{s.path[0]!==this.videoElement&&(this.videoUrl=null,document.removeEventListener("click",this.closeVideoWhenClickedOutside))}}select(s){if(s===this.endIdSelected){this.endIdSelected=null;return}this.endIdSelected=s}showStuff(s,t){t.stopPropagation(),this.videoUrl=s,document.addEventListener("click",this.closeVideoWhenClickedOutside)}};M([we()],E.prototype,"mapName",2);M([It],E.prototype,"endIdSelected",2);M([It],E.prototype,"videoUrl",2);E=M([D({name:"app-map",styles:Lt`
 		.map {
-			width: auto;
-			max-height: 100vh;
-			max-width: 100vw;
-			aspect-ratio: 1;
+			width: 100vh;
+			height: 100vh;
 			position: relative;
 			z-index: 0;
 			background: url(${Ci}) 0 0% / contain no-repeat;
