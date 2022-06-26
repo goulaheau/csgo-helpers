@@ -1,6 +1,4 @@
-import { MapName } from '../types/map-name'
-import deDust2Url from '/assets/maps/de_dust2.png'
-import deNukeUrl from '/assets/maps/de_nuke.png'
+import { StuffLocalizations } from '../core/interfaces/stuff-localizations'
 import {
 	FASTElement,
 	attr,
@@ -15,6 +13,10 @@ import {
 @customElement({
 	name: 'app-map',
 	styles: css`
+		:host {
+			display: flex;
+		}
+
 		*:focus {
 			outline: none;
 		}
@@ -28,7 +30,7 @@ import {
 			margin: auto;
 		}
 
-		.end {
+		.arrival {
 			position: absolute;
 			border-radius: 50%;
 			background: yellow;
@@ -40,12 +42,12 @@ import {
 			padding: 0;
 		}
 
-		.end:hover,
-		.end[aria-selected] {
+		.arrival:hover,
+		.arrival[aria-selected] {
 			opacity: 1;
 		}
 
-		.start {
+		.departure {
 			display: none;
 			position: absolute;
 			border-radius: 50%;
@@ -57,10 +59,10 @@ import {
 			padding: 0;
 		}
 
-		.end:hover + .starts-container .start,
-		.end:hover + .starts-container svg,
-		.end[aria-selected] + .starts-container .start,
-		.end[aria-selected] + .starts-container svg {
+		.arrival:hover + .departures-container .departure,
+		.arrival:hover + .departures-container svg,
+		.arrival[aria-selected] + .departures-container .departure,
+		.arrival[aria-selected] + .departures-container svg {
 			display: block;
 		}
 
@@ -84,7 +86,7 @@ import {
 			position: absolute;
 			top: calc(112 / 1024 * 100%);
 			height: calc(800 / 1024 * 100%);
-			width: 100%;
+			width: 100vh;
 			justify-content: center;
 		}
 
@@ -96,36 +98,40 @@ import {
 	template: html<MapElement>`
 		<div class="map" style="background-image: url(${(x) => x.mapUrl})">
 			${repeat(
-				(x) => x.ends,
+				(x) => x.stuffLocalizations.arrivals,
 				html<{ id: number; x: number; y: number }, MapElement>`
 					<button
-						@click="${(end, c) => c.parent.select(end.id)}"
-						aria-selected="${(end, c) =>
-							c.parent.endIdSelected === end.id ? 'true' : null}"
-						class="end"
+						@click="${(arrival, c) => c.parent.select(arrival.id)}"
+						aria-selected="${(arrival, c) =>
+							c.parent.arrivalIdSelected === arrival.id ? 'true' : null}"
+						class="arrival"
 						style="
-							left: ${(end) => `calc(${end.x} / 1024 * 100%)`};
-							top: ${(end) => `calc(${end.y} / 1024 * 100%)`};
+							left: ${(arrival) => `calc(${arrival.x} / 1024 * 100%)`};
+							top: ${(arrival) => `calc(${arrival.y} / 1024 * 100%)`};
 						"
 					></button>
 
-					<div class="starts-container">
+					<div class="departures-container">
 						${repeat(
-							(end, c) => c.parent.starts[end.id],
+							(arrival, c) =>
+								c.parent.stuffLocalizations.departuresByArrivalId[arrival.id],
 							html<{
 								id: number
-								endId: number
+								arrivalId: number
 								x: number
 								y: number
 								videoUrl: string
 							}>`
 								<button
-									class="start"
-									@click="${(start, c) =>
-										c.parentContext.parent.showStuff(start.videoUrl, c.event)}"
+									class="departure"
+									@click="${(departure, c) =>
+										c.parentContext.parent.showStuff(
+											departure.videoUrl,
+											c.event,
+										)}"
 									style="
-											left: ${(start) => `calc(${start.x} / 1024 * 100%)`};
-											top: ${(start) => `calc(${start.y} / 1024 * 100%)`};
+											left: ${(departure) => `calc(${departure.x} / 1024 * 100%)`};
+											top: ${(departure) => `calc(${departure.y} / 1024 * 100%)`};
 										"
 								></button>
 
@@ -133,8 +139,8 @@ import {
 									<line
 										x1="${(_, c) => c.parent.x + 10}"
 										y1="${(_, c) => c.parent.y + 10}"
-										x2="${(start) => start.x + 10}"
-										y2="${(start) => start.y + 10}"
+										x2="${(departure) => departure.x + 10}"
+										y2="${(departure) => departure.y + 10}"
 									/>
 								</svg>
 							`,
@@ -160,87 +166,13 @@ import {
 	`,
 })
 export class MapElement extends FASTElement {
-	@attr() mapName!: MapName
+	@attr() mapUrl!: string
+	@attr() stuffLocalizations!: StuffLocalizations
 
-	@observable endIdSelected: number | null = null
+	@observable arrivalIdSelected: number | null = null
 	@observable videoUrl: string | null = null
 
-	@observable mapUrl!: string
-
 	videoElement!: HTMLVideoElement
-
-	ends: { id: number; x: number; y: number }[] = [
-		{
-			id: 1,
-			x: 483,
-			y: 402,
-		},
-		{
-			id: 2,
-			x: 250,
-			y: 227,
-		},
-	]
-
-	starts: {
-		[endId: number]: {
-			id: number
-			endId: number
-			x: number
-			y: number
-			videoUrl: string
-		}[]
-	} = {
-		1: [
-			{
-				id: 1,
-				endId: 1,
-				x: 447,
-				y: 885,
-				videoUrl: 'https://giant.gfycat.com/CapitalClearAlligator.mp4',
-			},
-			{
-				id: 2,
-				endId: 1,
-				x: 544,
-				y: 648,
-				videoUrl: 'https://giant.gfycat.com/WellwornKindIaerismetalmark.mp4',
-			},
-			{
-				id: 3,
-				endId: 1,
-				x: 285,
-				y: 405,
-				videoUrl: 'https://giant.gfycat.com/IdioticAdventurousArabianoryx.mp4',
-			},
-		],
-		2: [
-			{
-				id: 4,
-				endId: 2,
-				x: 133,
-				y: 454,
-				videoUrl: 'https://giant.gfycat.com/RashDizzyHarborporpoise.mp4',
-			},
-		],
-	}
-
-	mapNameChanged(): void {
-		this.mapUrl = this.getMapUrl(this.mapName)
-	}
-
-	private getMapUrl(mapName: MapName): string {
-		switch (mapName) {
-			case 'de_dust2':
-				return deDust2Url
-
-			case 'de_nuke':
-				return deNukeUrl
-
-			default:
-				throw new Error('Map non gérée')
-		}
-	}
 
 	closeVideoWhenClickedOutside = (event: any) => {
 		const elementClicked = event.path[0]
@@ -253,14 +185,14 @@ export class MapElement extends FASTElement {
 		document.removeEventListener('click', this.closeVideoWhenClickedOutside)
 	}
 
-	select(endIdToToggle: number): void {
-		if (endIdToToggle === this.endIdSelected) {
-			this.endIdSelected = null
+	select(arrivalIdToToggle: number): void {
+		if (arrivalIdToToggle === this.arrivalIdSelected) {
+			this.arrivalIdSelected = null
 
 			return
 		}
 
-		this.endIdSelected = endIdToToggle
+		this.arrivalIdSelected = arrivalIdToToggle
 	}
 
 	showStuff(videoUrl: string, event: Event): void {

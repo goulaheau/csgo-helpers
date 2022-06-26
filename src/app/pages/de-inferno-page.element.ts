@@ -3,7 +3,7 @@ import { StuffSelectorElement } from '../components/stuff-selector.element'
 import { StuffLocalizations } from '../core/interfaces/stuff-localizations'
 import { StuffLocalizationsByStuff } from '../core/interfaces/stuff-localizations-by-stuff'
 import { readStream } from '../core/streams/read-stream'
-import mapUrl from '/assets/maps/de_nuke.png'
+import mapUrl from '/assets/maps/de_inferno.png'
 import {
 	FASTElement,
 	customElement,
@@ -12,7 +12,7 @@ import {
 } from '@microsoft/fast-element'
 
 @customElement({
-	name: 'app-de-nuke-page',
+	name: 'app-de-inferno-page',
 	template: html`
 		<app-map
 			:mapUrl="${() => mapUrl}"
@@ -20,11 +20,27 @@ import {
 		></app-map>
 	`,
 })
-export class DeNukePageElement extends FASTElement {
+export class DeInfernoPageElement extends FASTElement {
 	readonly stuffLocalizationsByStuff: StuffLocalizationsByStuff = {
 		smoke: {
-			arrivals: [],
-			departuresByArrivalId: {},
+			arrivals: [
+				{
+					id: 1,
+					x: 887,
+					y: 613,
+				},
+			],
+			departuresByArrivalId: {
+				1: [
+					{
+						id: 1,
+						endId: 1,
+						x: 609,
+						y: 683,
+						videoUrl: 'https://giant.gfycat.com/GraciousDecentAnhinga.mp4',
+					},
+				],
+			},
 		},
 		flash: {
 			arrivals: [],

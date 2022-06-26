@@ -3,7 +3,7 @@ import { StuffSelectorElement } from '../components/stuff-selector.element'
 import { StuffLocalizations } from '../core/interfaces/stuff-localizations'
 import { StuffLocalizationsByStuff } from '../core/interfaces/stuff-localizations-by-stuff'
 import { readStream } from '../core/streams/read-stream'
-import mapUrl from '/assets/maps/de_nuke.png'
+import mapUrl from '/assets/maps/de_mirage.png'
 import {
 	FASTElement,
 	customElement,
@@ -12,15 +12,16 @@ import {
 } from '@microsoft/fast-element'
 
 @customElement({
-	name: 'app-de-nuke-page',
+	name: 'app-de-mirage-page',
 	template: html`
 		<app-map
+			<app-map
 			:mapUrl="${() => mapUrl}"
 			:stuffLocalizations="${(x) => x.stuffLocalizations}"
 		></app-map>
 	`,
 })
-export class DeNukePageElement extends FASTElement {
+export class DeMiragePageElement extends FASTElement {
 	readonly stuffLocalizationsByStuff: StuffLocalizationsByStuff = {
 		smoke: {
 			arrivals: [],

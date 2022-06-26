@@ -1,4 +1,4 @@
-import { AppRouterConfiguration } from './app-router-configuration.js'
+import { AppRouterConfiguration } from './router/app-router-configuration'
 import { FASTElement, css, customElement, html } from '@microsoft/fast-element'
 import { FASTRouter } from '@microsoft/fast-router'
 
