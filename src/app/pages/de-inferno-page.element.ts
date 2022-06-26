@@ -1,7 +1,7 @@
+import { DbService } from '../../db/db.service'
 import '../components/map.element.js'
 import { StuffSelectorElement } from '../components/stuff-selector.element'
 import { StuffLocalizations } from '../core/interfaces/stuff-localizations'
-import { StuffLocalizationsByStuff } from '../core/interfaces/stuff-localizations-by-stuff'
 import { readStream } from '../core/streams/read-stream'
 import mapUrl from '/assets/maps/de_inferno.png'
 import {
@@ -21,40 +21,8 @@ import {
 	`,
 })
 export class DeInfernoPageElement extends FASTElement {
-	readonly stuffLocalizationsByStuff: StuffLocalizationsByStuff = {
-		smoke: {
-			arrivals: [
-				{
-					id: 1,
-					x: 887,
-					y: 613,
-				},
-			],
-			departuresByArrivalId: {
-				1: [
-					{
-						id: 1,
-						endId: 1,
-						x: 609,
-						y: 683,
-						videoUrl: 'https://giant.gfycat.com/GraciousDecentAnhinga.mp4',
-					},
-				],
-			},
-		},
-		flash: {
-			arrivals: [],
-			departuresByArrivalId: {},
-		},
-		molotov: {
-			arrivals: [],
-			departuresByArrivalId: {},
-		},
-		grenade: {
-			arrivals: [],
-			departuresByArrivalId: {},
-		},
-	}
+	readonly stuffLocalizationsByStuff =
+		DbService.getStuffLocalizationsByStuff('de_inferno')
 
 	@observable
 	stuffLocalizations!: StuffLocalizations

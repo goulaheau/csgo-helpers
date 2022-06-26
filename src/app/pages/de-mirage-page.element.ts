@@ -1,7 +1,7 @@
+import { DbService } from '../../db/db.service'
 import '../components/map.element.js'
 import { StuffSelectorElement } from '../components/stuff-selector.element'
 import { StuffLocalizations } from '../core/interfaces/stuff-localizations'
-import { StuffLocalizationsByStuff } from '../core/interfaces/stuff-localizations-by-stuff'
 import { readStream } from '../core/streams/read-stream'
 import mapUrl from '/assets/maps/de_mirage.png'
 import {
@@ -22,24 +22,8 @@ import {
 	`,
 })
 export class DeMiragePageElement extends FASTElement {
-	readonly stuffLocalizationsByStuff: StuffLocalizationsByStuff = {
-		smoke: {
-			arrivals: [],
-			departuresByArrivalId: {},
-		},
-		flash: {
-			arrivals: [],
-			departuresByArrivalId: {},
-		},
-		molotov: {
-			arrivals: [],
-			departuresByArrivalId: {},
-		},
-		grenade: {
-			arrivals: [],
-			departuresByArrivalId: {},
-		},
-	}
+	readonly stuffLocalizationsByStuff =
+		DbService.getStuffLocalizationsByStuff('de_mirage')
 
 	@observable
 	stuffLocalizations!: StuffLocalizations

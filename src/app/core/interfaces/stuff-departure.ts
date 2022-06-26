@@ -1,6 +1,6 @@
 export interface StuffDeparture {
 	id: number
-	endId: number
+	arrivalId: number
 	x: number
 	y: number
 	videoUrl: string
