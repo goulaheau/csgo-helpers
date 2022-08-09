@@ -1,14 +1,21 @@
 import { readStream } from '../core/streams/read-stream'
 import { MapName } from '../core/types/map-name'
+import { RootElement } from '../root.element'
 import { AppRoutingEventSink } from '../router/app-routing-event-sink'
 import {
 	FASTElement,
+	Observable,
+	bind,
 	css,
 	customElement,
 	html,
 	observable,
 	repeat,
+	when,
 } from '@microsoft/fast-element'
+// @ts-ignore
+import { twoWay } from '@microsoft/fast-element/binding/two-way'
+import { User } from '@supabase/supabase-js'
 
 @customElement({
 	name: 'app-nav',
@@ -19,6 +26,8 @@ import {
 			background: #000;
 			height: 100vh;
 			width: calc((100vw - 100vh) / 2);
+			display: flex;
+			flex-direction: column;
 		}
 
 		li {
@@ -30,6 +39,12 @@ import {
 			color: #fff;
 			font-size: 1.5rem;
 			display: block;
+		}
+
+		.edit {
+			flex-grow: 1;
+			display: flex;
+			align-items: end;
 		}
 
 		h1 {
@@ -69,20 +84,50 @@ import {
 					</li>
 				`,
 			)}
+			${when(
+				(x) => !!x.user,
+				html<NavElement>`
+					<li class="edit">
+						<label>
+							<input
+								type="checkbox"
+								:checked="${bind((x) => x.editing, twoWay)}"
+							/>
+
+							Éditer
+						</label>
+					</li>
+				`,
+			)}
 		</ul>
 	`,
 })
 export class NavElement extends FASTElement {
 	@observable actualMapName!: MapName
+	@observable user: User | null = null
+
+	private _editing = false
+
+	get editing(): boolean {
+		Observable.track(this, 'editing')
+		return this._editing
+	}
+
+	set editing(editing: boolean) {
+		this._editing = editing
+		RootElement.editing = editing
+		RootElement.controller.enqueue(editing)
+		Observable.notify(this, 'editing')
+	}
 
 	mapNames: MapName[] = [
+		'de_ancient',
 		'de_dust2',
-		'de_nuke',
-		'de_vertigo',
-		'de_overpass',
 		'de_inferno',
 		'de_mirage',
-		'de_ancient',
+		'de_nuke',
+		'de_overpass',
+		'de_vertigo',
 	]
 
 	connectedCallback(): void {
@@ -93,5 +138,15 @@ export class NavElement extends FASTElement {
 		readStream(reader, (actualMapName) => {
 			this.actualMapName = actualMapName
 		})
+
+		this.getUser()
+
+		RootElement.supabase.auth.onAuthStateChange(() => {
+			this.getUser()
+		})
+	}
+
+	private getUser(): void {
+		this.user = RootElement.supabase.auth.user()
 	}
 }

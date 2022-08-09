@@ -8,8 +8,9 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"@microsoft/fast-element": "^1.10.2",
-		"@microsoft/fast-router": "^0.4.2"
+		"@microsoft/fast-element": "^2.0.0-beta.3",
+		"@microsoft/fast-router": "^1.0.0-alpha.3",
+		"@supabase/supabase-js": "^1.35.4"
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^3.2.0",

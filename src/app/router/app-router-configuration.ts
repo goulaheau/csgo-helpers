@@ -6,6 +6,7 @@ import { DeMiragePageElement } from '../pages/de-mirage-page.element'
 import { DeNukePageElement } from '../pages/de-nuke-page.element'
 import { DeOverpassPageElement } from '../pages/de-overpass-page.element'
 import { DeVertigoPageElement } from '../pages/de-vertigo-page.element'
+import { LoginPageElement } from '../pages/login-page.element'
 import { AppRoutingEventSink } from './app-routing-event-sink'
 import { RouterConfiguration } from '@microsoft/fast-router'
 
@@ -18,6 +19,11 @@ export class AppRouterConfiguration extends RouterConfiguration {
 		this.routes.map({
 			path: 'csgo-helpers',
 			children: [
+				{
+					path: 'login',
+					title: 'Login',
+					element: LoginPageElement,
+				},
 				{
 					path: 'de_dust2',
 					title: 'de_dust2',
